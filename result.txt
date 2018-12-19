@@ -1,0 +1,71 @@
+
+Промежуточные данные
+
+
+Таблица имен макроопределений
+
+Имя	Начало	Конец	Область	Аргумент	Аргумент
+
+M5	0	19	main	ARG0		ARG1=2
+M6	20	22	M5	ARG0=1		
+M7	23	28	M5	ARG0=9		
+
+_______________________________
+
+
+Таблица макроопределений
+
+0 A5 WORD ARG1 
+1  JMP A5 
+2 A6 ADD R0 R1
+3  JMP A6 
+4  VAR S ARG1
+5 M6 MACRO ARG0=1 
+6  AIF ARG0==1 .2
+7  WORD 2 
+8 .2 WORD 3 
+9  MEND  
+10  M6 ARG0=1 
+11  M7  
+12 M7 MACRO ARG0=9 
+13  VAR s ARG0
+14  WHILE s<10 
+15  INC s 
+16  ADD R0 R1
+17  RESW 20 
+18  ENDW  
+19  MEND  
+20  AIF ARG0==1 .2
+21  WORD 2 
+22 .2 WORD 3 
+23  VAR s ARG0
+24  WHILE s<10 
+25  INC s 
+26  ADD R0 R1
+27  RESW 20 
+28  ENDW  
+
+________________________
+
+
+Ассемблерный код
+
+Prog1 START 000000   
+M5_2_A5.0 WORD 1   
+ JMP M5_2_A5.0   
+M5_2_A6.1 ADD R0 R1  
+ JMP M5_2_A6.1   
+ WORD 3   
+ ADD R0 R1  
+ RESW 20   
+M5_2_A5.2 WORD 2   
+ JMP M5_2_A5.2   
+M5_2_A6.3 ADD R0 R1  
+ JMP M5_2_A6.3   
+ WORD 3   
+ ADD R0 R1  
+ RESW 20   
+END     
+
+________________
+

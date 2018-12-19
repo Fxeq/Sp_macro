@@ -1,0 +1,89 @@
+C:\Users\lamnikoso\Documents\Visual Studio 2017\Projects\sp_macro\sp_macro\obj\Debug\sp_macro.csprojResolveAssemblyReference.cache
+C:\Users\lamnikoso\Documents\Visual Studio 2017\Projects\sp_macro\sp_macro\obj\Debug\sp_macro.Properties.Resources.resources
+C:\Users\lamnikoso\Documents\Visual Studio 2017\Projects\sp_macro\sp_macro\obj\Debug\sp_macro.csproj.GenerateResource.Cache
+C:\Users\lamnikoso\Documents\Visual Studio 2017\Projects\sp_macro\sp_macro\obj\Debug\sp_macro.csproj.CoreCompileInputs.cache
+C:\Users\lamnikoso\Documents\Visual Studio 2017\Projects\sp_macro\sp_macro\bin\Debug\sp_macro.exe.config
+C:\Users\lamnikoso\Documents\Visual Studio 2017\Projects\sp_macro\sp_macro\bin\Debug\sp_macro.exe
+C:\Users\lamnikoso\Documents\Visual Studio 2017\Projects\sp_macro\sp_macro\bin\Debug\sp_macro.pdb
+C:\Users\lamnikoso\Documents\Visual Studio 2017\Projects\sp_macro\sp_macro\obj\Debug\sp_macro.exe
+C:\Users\lamnikoso\Documents\Visual Studio 2017\Projects\sp_macro\sp_macro\obj\Debug\sp_macro.pdb
+C:\Users\lamnikoso\Documents\Visual Studio 2017\Projects\sp_macro\sp_macro\obj\Debug\sp_macro.mainForm.resources
+C:\Users\lamnikoso\Documents\Visual Studio 2017\Projects\sp_macro\sp_macro\bin\Debug\MathParser.dll
+C:\Users\odmla\Documents\sp_macro\sp_macro\bin\Debug\sp_macro.exe.config
+C:\Users\odmla\Documents\sp_macro\sp_macro\bin\Debug\sp_macro.exe
+C:\Users\odmla\Documents\sp_macro\sp_macro\bin\Debug\sp_macro.pdb
+C:\Users\odmla\Documents\sp_macro\sp_macro\bin\Debug\MathParser.dll
+C:\Users\odmla\Documents\sp_macro\sp_macro\obj\Debug\sp_macro.csprojResolveAssemblyReference.cache
+C:\Users\odmla\Documents\sp_macro\sp_macro\obj\Debug\sp_macro.mainForm.resources
+C:\Users\odmla\Documents\sp_macro\sp_macro\obj\Debug\sp_macro.Properties.Resources.resources
+C:\Users\odmla\Documents\sp_macro\sp_macro\obj\Debug\sp_macro.csproj.GenerateResource.cache
+C:\Users\odmla\Documents\sp_macro\sp_macro\obj\Debug\sp_macro.csproj.CoreCompileInputs.cache
+C:\Users\odmla\Documents\sp_macro\sp_macro\obj\Debug\sp_macro.csproj.CopyComplete
+C:\Users\odmla\Documents\sp_macro\sp_macro\obj\Debug\sp_macro.exe
+C:\Users\odmla\Documents\sp_macro\sp_macro\obj\Debug\sp_macro.pdb
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\obj\Debug\sp_macro.csprojResolveAssemblyReference.cache
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\obj\Debug\sp_macro.mainForm.resources
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\obj\Debug\sp_macro.Properties.Resources.resources
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\obj\Debug\sp_macro.csproj.GenerateResource.cache
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\obj\Debug\sp_macro.csproj.CoreCompileInputs.cache
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\obj\Debug\sp_macro.exe
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\obj\Debug\sp_macro.pdb
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\bin\Debug\sp_macro.exe.config
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\bin\Debug\sp_macro.exe
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\bin\Debug\sp_macro.pdb
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\bin\Debug\MathParser.dll
+C:\Users\odmla\Documents\sp_macro_29\sp_macro\obj\Debug\sp_macro.csproj.CopyComplete
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\bin\Debug\sp_macro.exe.config
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\bin\Debug\sp_macro.exe
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\bin\Debug\sp_macro.pdb
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\bin\Debug\MathParser.dll
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\obj\Debug\sp_macro.csprojResolveAssemblyReference.cache
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\obj\Debug\sp_macro.mainForm.resources
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\obj\Debug\sp_macro.Properties.Resources.resources
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\obj\Debug\sp_macro.csproj.GenerateResource.cache
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\obj\Debug\sp_macro.csproj.CoreCompileInputs.cache
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\obj\Debug\sp_macro.csproj.CopyComplete
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\obj\Debug\sp_macro.exe
+C:\Users\odmla\Documents\sp_macro_44\sp_macro\obj\Debug\sp_macro.pdb
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\bin\Debug\sp_macro.exe.config
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\bin\Debug\sp_macro.exe
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\bin\Debug\sp_macro.pdb
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\bin\Debug\MathParser.dll
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\obj\Debug\sp_macro.csprojAssemblyReference.cache
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\obj\Debug\sp_macro.mainForm.resources
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\obj\Debug\sp_macro.Properties.Resources.resources
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\obj\Debug\sp_macro.csproj.GenerateResource.cache
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\obj\Debug\sp_macro.csproj.CoreCompileInputs.cache
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\obj\Debug\sp_macro.csproj.CopyComplete
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\obj\Debug\sp_macro.exe
+C:\Users\odmla\Documents\sp_macro_59\sp_macro\obj\Debug\sp_macro.pdb
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\obj\Debug\sp_macro.csprojAssemblyReference.cache
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\obj\Debug\sp_macro.mainForm.resources
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\obj\Debug\sp_macro.Properties.Resources.resources
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\obj\Debug\sp_macro.csproj.GenerateResource.cache
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\obj\Debug\sp_macro.csproj.CoreCompileInputs.cache
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\obj\Debug\sp_macro.exe
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\obj\Debug\sp_macro.pdb
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\bin\Debug\sp_macro.exe.config
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\bin\Debug\sp_macro.exe
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\bin\Debug\sp_macro.pdb
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\bin\Debug\MathParser.dll
+C:\Users\odmla\Documents\sp_macro_34\sp_macro\obj\Debug\sp_macro.csproj.CopyComplete
+D:\University\sp_macro\sp_macro_34\sp_macro\bin\Debug\sp_macro.exe.config
+D:\University\sp_macro\sp_macro_34\sp_macro\bin\Debug\sp_macro.exe
+D:\University\sp_macro\sp_macro_34\sp_macro\bin\Debug\sp_macro.pdb
+D:\University\sp_macro\sp_macro_34\sp_macro\bin\Debug\MathParser.dll
+D:\University\sp_macro\sp_macro_34\sp_macro\obj\Debug\sp_macro.csprojAssemblyReference.cache
+D:\University\sp_macro\sp_macro_34\sp_macro\obj\Debug\sp_macro.mainForm.resources
+D:\University\sp_macro\sp_macro_34\sp_macro\obj\Debug\sp_macro.Properties.Resources.resources
+D:\University\sp_macro\sp_macro_34\sp_macro\obj\Debug\sp_macro.csproj.GenerateResource.cache
+D:\University\sp_macro\sp_macro_34\sp_macro\obj\Debug\sp_macro.csproj.CoreCompileInputs.cache
+D:\University\sp_macro\sp_macro_34\sp_macro\obj\Debug\sp_macro.csproj.CopyComplete
+D:\University\sp_macro\sp_macro_34\sp_macro\obj\Debug\sp_macro.exe
+D:\University\sp_macro\sp_macro_34\sp_macro\obj\Debug\sp_macro.pdb
+D:\University\sp_macro\sp_macro_34\sp_macro\bin\Debug\Models.dll
+D:\University\sp_macro\sp_macro_34\sp_macro\bin\Debug\Models.pdb
+D:\University\sp_macro\sp_macro_34\sp_macro\bin\Debug\Commands.dll
+D:\University\sp_macro\sp_macro_34\sp_macro\bin\Debug\Commands.pdb
+D:\University\sp_macro\sp_macro_34\sp_macro\bin\Debug\Utils.dll
+D:\University\sp_macro\sp_macro_34\sp_macro\bin\Debug\Utils.pdb
