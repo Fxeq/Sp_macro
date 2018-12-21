@@ -29,7 +29,7 @@ namespace Commands
                 tableMacro.Add(new BodyMacro()
                 {
                     Number = tableMacro.Count(),
-                    Body = $"{data.lable?.ToString()} {data.command.ToString()} {(data.args.isNotEmpty() ? string.Join(" ", data.args) : "")}",
+                    Body = $"{data.lable?.ToString()} {data.command?.ToString()} {(data.args.isNotEmpty() ? string.Join(" ", data.args) : "")}",
                 });
                 return;
             }

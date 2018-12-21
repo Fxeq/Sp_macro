@@ -7,9 +7,9 @@ using sp_macro;
 
 namespace Commands
 {
-    public class CallMacroCommand : ICommand
+    public class CallMacroCommand : Command
     {
-        public LineData data => _data;
+        public override LineData data => _data;
         private LineData _data;
 
         private int _startMacro = 0;
@@ -21,7 +21,7 @@ namespace Commands
                 checkLineData(lineData);
         }
 
-        public bool checkLineData(LineData lineData)
+        public override bool checkLineData(LineData lineData)
         {
             if (lineData.lable.isEmpty()) throw new ArgumentException("Обнаружен неправильный формат");
             if (lineData.args?.get(0)?.isNotEmpty() == true && !Utils.validArgKey.IsMatch(lineData.args.get(0))
@@ -31,7 +31,7 @@ namespace Commands
             return true;
         }
 
-        public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
+        internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
             tableV.Clear();
             var macro = tableNMacro.FirstOrDefault(i => i.Name == data.lable);
@@ -57,12 +57,11 @@ namespace Commands
                 throw new ArgumentException("Неправильные параметры были переданы в макрос");
             }
 
-            tableV.Add(buildVariable(mArg1, data.args?.get(0)));
-            var secondVar = buildVariable(mArg2, data.args?.get(1));
-            if (secondVar != null)
-                tableV.Add(secondVar);
+            //tableV.Add(buildVariable(mArg1, data.args?.get(0)));
+            //var secondVar = buildVariable(mArg2, data.args?.get(1));
+            //if (secondVar != null)
+            //    tableV.Add(secondVar);
             
-
         }
 
         private Variable buildVariable(string varName, string arg)

@@ -32,33 +32,34 @@ namespace sp_macro
 
         private Config config = Config.getInstance();
 
-        internal BindingList<NameMacro> tableNMacro  { get; set;}
+        internal BindingList<NameMacro> tableNMacro { get; set; }
 
         internal BindingList<Variable> tableV { get; set; }
 
         internal BindingList<BodyMacro> tableMacro { get; set; }
 
-        public BindingList<Instruction> tom  { get; set;}
+        public BindingList<Instruction> tom { get; set; }
 
-        internal Dictionary<string, string> header  { get; set;}
+        internal Dictionary<string, string> header { get; set; }
 
-        internal Dictionary<string, string> ender  { get; set;}
+        internal Dictionary<string, string> ender { get; set; }
 
-        internal Dictionary<string, int> regs  { get; set;}
+        internal Dictionary<string, int> regs { get; set; }
 
-        internal Dictionary<string, string> unigueLabel  { get; set;}
+        internal Dictionary<string, string> unigueLabel { get; set; }
 
         internal CodeReader codeReader;
 
         internal LineParser lineParser = new LineParser();
 
         internal CommandDefiner commandDefiner = new CommandDefiner();
-        
+
         public StringBuilder ts = new StringBuilder();
 
         public Func<string> CodeSource;
 
-        public string Code {
+        public string Code
+        {
             set
             {
                 if (codeReader != null)
@@ -81,7 +82,7 @@ namespace sp_macro
             tableNMacro.Clear();
 
             ts.Clear();
-            end = false; 
+            end = false;
 
             codeReader.clear();
             config.clear();
@@ -108,9 +109,9 @@ namespace sp_macro
             {
                 {"address", ""}
             };
-;
+            ;
             end = false;
-            
+
             codeReader = new CodeReader() { };
 
             codeReader.clear();
@@ -237,7 +238,7 @@ namespace sp_macro
 
             return new Message(true, null, true);
         }
-        
+
 
         public void Step(object sender, EventArgs e)
         {
@@ -245,89 +246,23 @@ namespace sp_macro
             {
                 Preparation();
                 ts.Clear();
-                ts.Append(CodeSource()); 
+                ts.Append(CodeSource());
                 codeReader.code = ts.ToString();
             }
-
-            string lineCode = "";
             try
             {
+                string lineCode = "";
                 lineCode = codeReader.readNext();
+
+                if (lineCode.isEmpty()) return;
+
+                LineData lineData = lineParser.parse(lineCode);
+                executeLine(codeReader, lineData, false);
             }
-            catch
+            catch (EofException ex)
             {
                 end = true;
                 return;
-            }
-
-            if (lineCode.isEmpty()) return;
-
-            LineData lineData = lineParser.parse(lineCode);
-
-
-            try
-            {
-                ICommand command = commandDefiner.define(lineData);
-                if (codeReader.currentLine == 0)
-                {
-                    if (command == null || !(command is StartCommand)) throw new ArgumentException("Не обнаружена директива START");
-                    else config.stack.Push("main");
-                }
-                if (command == null)
-                {
-                    if (lineData.args.get(1)?.isNotEmpty() == true) throw new ArgumentException("Неправильный формат объявления директивы");
-                    if (lineData.lable?.isNotEmpty() == true && Config.getInstance().macroMode) throw new ArgumentException("Макропроцессор не поддерживает макровызовы внутри макроопределений");
-                    else if (lineData.lable?.isNotEmpty() == true && !Config.getInstance().macroMode)
-                    {
-
-                    }
-                    else throw new ArgumentException($"Макропроцессор не поддерживает директиву.");
-                }
-
-                command.execute(tableNMacro, tableV, tableMacro, tom);
-                if (command is CallMacroCommand)
-                {
-                    CodeReader macroCodeReader = new CodeReader();
-                    macroCodeReader.codeLinesList = tableMacro.startFrom((command as CallMacroCommand).startMacro).map(item => item.Body);
-                    while (macroCodeReader.hasNext())
-                    {
-                        LineData macroLineData = lineParser.parse(macroCodeReader.readNext());
-                        ICommand macroCommand = commandDefiner.define(macroLineData);
-
-                        if (config.stackIf.isNotEmpty() && !(macroCommand is ElseCommand || macroCommand is EndifCommand))
-                        {
-                            if (config.stackIf.isNotEmpty() && !config.stackIf.Peek())
-                            {
-                                continue;
-                            }
-                        }
-
-                        if (macroCommand is WhileCommand)
-                            config.whileIndex = macroCodeReader.currentLine - 1;
-
-                        if (config.stackWhile.isNotEmpty() && config.stackWhile.Peek())
-                        {
-                            if (macroCommand is EndwCommand)
-                            {
-                                macroCodeReader.currentLine = config.whileIndex;
-                                continue;
-                            }
-                        }
-                        else if (config.stackWhile.isNotEmpty() && !config.stackWhile.Peek() && !(macroCommand is EndwCommand))
-                        {
-                            continue;
-                        }
-
-                        macroCommand.execute(tableNMacro, tableV, tableMacro, tom);
-                    }
-                }
-
-                if (command is EndCommand)
-                {
-                    end = true;
-                   // Res();
-                }
-
             }
             catch (Exception ex)
             {
@@ -336,8 +271,73 @@ namespace sp_macro
                 err.Append(" Строка №" + (codeReader.currentLine + 1));
                 err.Append("\n" + ex.StackTrace);
                 throw new ArgumentException(err.ToString());
+
+            }
+
+
+        }
+
+        private void executeLine(CodeReader codeReader, LineData lineData, bool isMacro)
+        {
+            ICommand command = commandDefiner.define(lineData);
+            if (codeReader.currentLine == 0 && !isMacro)
+            {
+                if (command == null || !(command is StartCommand)) throw new ArgumentException("Не обнаружена директива START");
+                else config.stack.Push("main");
+            }
+            if (command == null)
+            {
+                if (lineData.args.get(1)?.isNotEmpty() == true) throw new ArgumentException("Неправильный формат объявления директивы");
+                if (lineData.lable?.isNotEmpty() == true && Config.getInstance().macroMode) throw new ArgumentException("Макропроцессор не поддерживает макровызовы внутри макроопределений");
+                else if (lineData.lable?.isNotEmpty() == true && !Config.getInstance().macroMode)
+                {
+
+                }
+                else throw new ArgumentException($"Макропроцессор не поддерживает директиву.");
+            }
+
+            if (config.stackIf.isNotEmpty() && !(command is ElseCommand || command is EndifCommand))
+            {
+                if (config.stackIf.isNotEmpty() && !config.stackIf.Peek())
+                {
+                    return;
+                }
+            }
+
+            if (command is WhileCommand)
+                config.whileIndex = codeReader.currentLine - 1;
+
+            if (config.stackWhile.isNotEmpty() && config.stackWhile.Peek())
+            {
+                if (config.stackWhile.Count > 50) throw new ArgumentException("Обнаружен бесконечный цикл");
+                if (command is EndwCommand)
+                {
+                    codeReader.currentLine = config.whileIndex;
+                    return;
+                }
+            }
+            else if (config.stackWhile.isNotEmpty() && !config.stackWhile.Peek() && !(command is EndwCommand))
+            {
+                return;
+            }
+            command.execute(tableNMacro, tableV, tableMacro, tom);
+            if (command is CallMacroCommand && !config.macroMode)
+            {
+                CodeReader macroCodeReader = new CodeReader();
+                macroCodeReader.codeLinesList = tableMacro.startFrom((command as CallMacroCommand).startMacro).map(item => item.Body);
+                while (macroCodeReader.hasNext())
+                {
+                    LineData macroLineData = lineParser.parse(macroCodeReader.readNext());
+                    executeLine(macroCodeReader, macroLineData, true);
+                }
+            }
+
+            if (command is EndCommand)
+            {
+                end = true;
+                // Res();
             }
         }
-        
+
     }
 }
