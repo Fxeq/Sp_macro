@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Commands
 {
-    public class SubCommand : Directive
+    public class SubCommand : Command
     {
         public static string name = "SUB";
         private CommandModel commandModel = new CommandModel() { BinaryCode = "8", Code = "SUB", Length = 3 };
