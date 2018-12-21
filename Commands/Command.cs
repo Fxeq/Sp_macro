@@ -1,10 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using sp_macro;
 
 public interface Command
 {
     LineData data { get; }
-    void execute(BindingList<NameMacro> tableNMacro, BindingList<Variable> tableV, BindingList<BodyMacro> tableMacro, BindingList<Instruction> tom);
+    void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom);
     bool checkLineData(LineData lineData);
 }

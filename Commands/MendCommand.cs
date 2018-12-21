@@ -1,7 +1,6 @@
 ﻿using sp_macro;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,10 +27,12 @@ namespace Commands
             return true;
         }
 
-        public void execute(BindingList<NameMacro> tableNMacro, BindingList<Variable> tableV, BindingList<BodyMacro> tableMacro, BindingList<Instruction> tom)
+        public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
             Config config = Config.getInstance();
-            if (config.stackIf.Count != 0) throw new ArgumentException("Не все ветви IF имеют ENDIF ");
+            if (config.stackIf.Count != 0)
+                throw new ArgumentException("Не все ветви IF имеют ENDIF ");
+
             if (tableNMacro.ToList().Last().StartIndex != tableMacro.Count())
             {
                 tableNMacro.ToList().Last().EndIndex = tableMacro.Count() - 1;

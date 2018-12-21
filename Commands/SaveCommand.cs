@@ -1,7 +1,7 @@
 ﻿namespace Commands
 {
     using sp_macro;
-    using System.ComponentModel;
+    using System.Collections.Generic;
     using System.Linq;
 
     public class SaveCommand : Command
@@ -25,7 +25,7 @@
             return true;
         }
 
-        public void execute(BindingList<NameMacro> tableNMacro, BindingList<Variable> tableV, BindingList<BodyMacro> tableMacro, BindingList<Instruction> tom)
+        public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
             if (Config.getInstance().macroMode)
             {

@@ -1,7 +1,6 @@
 ﻿using sp_macro;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +33,7 @@ namespace Commands
             return true;
         }
 
-       public void execute(BindingList<NameMacro> tableNMacro, BindingList<Variable> tableV, BindingList<BodyMacro> tableMacro, BindingList<Instruction> tom)
+       public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
 
             string tempArg1Name = Utils.validArgKey.IsMatch(data.args.get(0)) ? data.args.get(0).Remove(4, data.args.get(0).Length - 4) : data.args.get(0);

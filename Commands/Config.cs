@@ -45,5 +45,17 @@ namespace Commands
                 macroCommand = null;
             }
         }
+
+        public void clear()
+        {
+            stack.Clear();
+            stackIf.Clear();
+            stackWhile.Clear();
+            whileIndex = -1;
+            macroMode = false;
+            macros.Clear();
+            macroCommand = null;
+            unigueLabel.Clear();
+        }
     }
 }

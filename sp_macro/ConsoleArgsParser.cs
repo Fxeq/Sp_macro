@@ -126,13 +126,13 @@ namespace sp_macro
             }
 
 
-            exe = new Executor(inFile);
-            if (exe.fileOk)
+            if (Path.GetFullPath(inFile).isNotEmpty())
             {
                 code = new List<string>();
                 ass = new List<string>();
                 macros = new List<string>();
                 nameMacros = new List<string>();
+                exe = new Executor(inFile);
             }
             else
             {
@@ -151,7 +151,7 @@ namespace sp_macro
         public List<string> GetCode()
         {
             var temp = new List<string>();
-            for (int i = 0; i < exe.ts.Count(); ++i)
+            for (int i = 0; i < exe.ts.ToString().Count(); ++i)
             {
                 temp.Add(string.Format("{0}", exe.ts[i]));
             }
@@ -194,7 +194,7 @@ namespace sp_macro
 
         public Message Pass()
         {
-            return exe.Pass();
+            return exe.Pass(null, null);
         }
 
         public static string GetHelp()

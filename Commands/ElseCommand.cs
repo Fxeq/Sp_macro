@@ -1,7 +1,6 @@
 ﻿using sp_macro;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,9 +32,12 @@ namespace Commands
             return true;
         }
 
-        public void execute(BindingList<NameMacro> tableNMacro, BindingList<Variable> tableV, BindingList<BodyMacro> tableMacro, BindingList<Instruction> tom)
+        public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
-            if (Config.getInstance().macroMode){
+            var config = Config.getInstance();
+            Stack<bool> stack = Config.getInstance().stackIf;
+            if (config.macroMode){
+                stack.Push(false);
                 tableMacro.Add(new BodyMacro()
                 {
                     Number = tableMacro.Count(),
@@ -44,8 +46,8 @@ namespace Commands
                 return;
             }
 
-            Stack<bool> stack = Config.getInstance().stackIf;
-            stack.Push(!stack.Pop());
+            var value = stack.Pop();
+            stack.Push(!value);
         }
     }
 }

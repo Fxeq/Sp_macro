@@ -1,7 +1,6 @@
 ﻿using sp_macro;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +35,7 @@ namespace Commands
             return true;
         }
 
-       public void execute(BindingList<NameMacro> tableNMacro, BindingList<Variable> tableV, BindingList<BodyMacro> tableMacro, BindingList<Instruction> tom)
+       public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
             Config config = Config.getInstance();
             if (config.macroMode)
@@ -54,7 +53,7 @@ namespace Commands
                 bool compare = Utils.Compare(getValue(data.args.get(0), tableV), getValue(data.args.get(2), tableV), data.args.get(1));
                 config.stackIf.Push(compare);
             }
-            catch (Exception ex)
+            catch
             {
                 throw new ArgumentException("Условие невыполнимо");
             }
