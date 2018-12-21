@@ -1,10 +1,11 @@
 ﻿namespace Commands
 {
     using sp_macro;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    public class SaveCommand : Command
+    public class SaveCommand : ICommand
     {
         public static string name = "SAVE";
 
@@ -21,6 +22,10 @@
         }
         public bool checkLineData(LineData lineData)
         {
+            if (lineData.lable.isNotEmpty() && Config.getInstance().macroMode)
+            {
+                throw new ArgumentException("Метка внутри макроса не поддерживается");
+            }
             _data = lineData;
             return true;
         }

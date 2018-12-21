@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Commands
 {
-    public class MendCommand : Command
+    public class MendCommand : ICommand
     {
         public static string name = "MEND";
         private CommandModel commandModel = new CommandModel() { BinaryCode = "0", Code = "MEND", Length = 0 };

@@ -8,7 +8,7 @@
     {
         private static LineData _lineData = null;
 
-        public static Dictionary<string, Func<Command>> directives = new Dictionary<string, Func<Command>>()
+        public static Dictionary<string, Func<ICommand>> directives = new Dictionary<string, Func<ICommand>>()
         {
             {ResbCommand.name, () => new ResbCommand(_lineData) },
                 {ReswCommand.name,  () =>new ReswCommand(_lineData) },
@@ -29,7 +29,7 @@
                 {DecCommand.name, () => new DecCommand(_lineData) },
         };
 
-        public static Dictionary<string, Func<Command>> commands = new Dictionary<string, Func<Command>>()
+        public static Dictionary<string, Func<ICommand>> commands = new Dictionary<string, Func<ICommand>>()
         {
                {JmpCommand.name,  () => new JmpCommand(_lineData)},
                {LoadCommand.name,  () => new LoadCommand(_lineData)},
@@ -50,14 +50,15 @@
                 { "R8", 08}, { "R9", 09}, { "R10", 10}, { "R11", 11}, { "R12", 12}, { "R13", 13}, { "R14", 14}, { "R15", 15},
             };
 
-        public Command define(LineData lineData)
+        public ICommand define(LineData lineData)
         {
-            Command command = null;
-            //_lineData = lineData;
+            ICommand command = null;
+
             if (isExistDirective(lineData.directive)) command = directives[lineData.directive]();
             else if (isExistCommand(lineData.command)) command = commands[lineData.command]();
             else if (lineData.lable.isNotEmpty() && Config.getInstance().macros.ContainsKey(lineData.lable)) command = new CallMacroCommand(lineData);
 
+            if (command is Directive) command = command as Directive;
             command?.checkLineData(lineData);
             return command;
         }

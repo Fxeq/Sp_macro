@@ -22,7 +22,7 @@ namespace sp_macro
 
         public static bool isNotEmpty<T>(this T[] data)
         {
-            return !data.isEmpty();
+            return data != null && data.Length != 0;
         }
 
         public static bool isEmpty<T>(this ICollection<T> data)

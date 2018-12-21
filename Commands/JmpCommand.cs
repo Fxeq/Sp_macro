@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Commands
 {
-    public class JmpCommand : Command
+    public class JmpCommand : ICommand
     {
         public static string name = "JMP";
         private CommandModel commandModel = new CommandModel() { BinaryCode = "1", Code = "JMP", Length = 4 };
@@ -22,6 +22,10 @@ namespace Commands
         }
         public bool checkLineData(LineData lineData)
         {
+            if (lineData.lable.isNotEmpty() && Config.getInstance().macroMode)
+            {
+                throw new ArgumentException("Метка внутри макроса не поддерживается");
+            }
             _data = lineData;
             return true;
         }
@@ -35,6 +39,11 @@ namespace Commands
                 Body = $"{data.lable?.ToString()} {data.command?.ToString()} {(data.args!=null ? data.args.get(0)?.ToString() : "")} {(data.args != null ? data.args.get(1)?.ToString() : "")}",
             });
                 return;
+            }
+
+            if (data?.args.get(0).isNotEmpty() == true && !Config.getInstance().unigueLabel.ContainsKey(data.args.get(0)))
+            {
+                throw new ArgumentException("Обнаружена неопределенная метка " + data?.args.get(0));
             }
 
             tom.Add(new Instruction()

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Commands
 {
-    public class WhileCommand : Command
+    public class WhileCommand : Directive
     {
         public static string name = "WHILE";
         private CommandModel commandModel = new CommandModel() { BinaryCode = "0", Code = "WHILE", Length = 0 };
 
-        public LineData data => _data;
+        public override LineData data => _data;
         private LineData _data;
 
         public WhileCommand(LineData lineData)
@@ -20,8 +20,9 @@ namespace Commands
             if (lineData != null)
                 checkLineData(lineData);
         }
-        public bool checkLineData(LineData lineData)
+        public override bool checkLineData(LineData lineData)
         {
+            base.checkLineData(lineData);
 
             if (lineData.args?.isEmpty() == true ||
                 lineData.args?.Length != 3 ||
@@ -30,24 +31,14 @@ namespace Commands
             {
                 throw new ArgumentException("Неправильный формат записи условия");
             }
-
+            
             _data = lineData;
             return true;
         }
 
-       public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
+        internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
             Config config = Config.getInstance();
-            if (config.macroMode)
-            {
-                tableMacro.Add(new BodyMacro()
-                {
-                    Number = tableMacro.Count(),
-                    Body = $"{data.lable} {data.directive} {data.args[0]} {data.args.get(1)?.ToString()} {data.args.get(2)?.ToString()}",
-                });
-                return;
-            }
-
             try
             {
                 bool compare = Utils.Compare(getValue(data.args.get(0), tableV), getValue(data.args.get(2), tableV), data.args.get(1));

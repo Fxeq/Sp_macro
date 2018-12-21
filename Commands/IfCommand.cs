@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Commands
 {
-    public class IfCommand : Command
+    public class IfCommand : Directive
     {
         public static string name = "IF";
         private CommandModel commandModel = new CommandModel() { BinaryCode = "0", Code = "IF", Length = 0 };
 
-        public LineData data => _data;
+        public override LineData data => _data;
         private LineData _data;
 
         public IfCommand(LineData lineData)
@@ -21,8 +21,9 @@ namespace Commands
                 checkLineData(lineData);
         }
 
-        public bool checkLineData(LineData lineData)
+        public override bool checkLineData(LineData lineData)
         {
+            base.checkLineData(lineData);
 
             if (lineData.args?.isEmpty() == true ||
                 lineData.args?.Length != 3 ||
@@ -35,18 +36,9 @@ namespace Commands
             return true;
         }
 
-       public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
+        internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
             Config config = Config.getInstance();
-            if (config.macroMode)
-            {
-                tableMacro.Add(new BodyMacro()
-                {
-                    Number = tableMacro.Count(),
-                    Body = $"{data.lable} {data.directive} {data.args[0]} {data.args.get(1)?.ToString()} {data.args.get(2)?.ToString()}",
-                });
-                return;
-            }
 
             try
             {

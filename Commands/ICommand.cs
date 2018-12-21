@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using sp_macro;
 
-public interface Command
+public interface ICommand
 {
     LineData data { get; }
     void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom);

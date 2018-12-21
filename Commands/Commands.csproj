@@ -42,7 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CallMacroCommand.cs" />
-    <Compile Include="Command.cs" />
+    <Compile Include="Directive.cs" />
+    <Compile Include="ICommand.cs" />
     <Compile Include="CommandDefiner.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -65,6 +65,7 @@
 
             executor = new Executor(inFile);
             ts.Text = executor.ts.ToString();
+            executor.CodeSource = () => ts.Text.ToString();
 
             tm.DataSource = executor.tableMacro;
             tv.DataSource = executor.tableV;
@@ -93,7 +94,18 @@
             save.Enabled = false;
             open.Enabled = false;
 
-            executor.Pass(sender, e);
+            try
+            {
+                executor.Pass(sender, e);
+            }
+            catch (Exception ex)
+            {
+                err.AppendText(ex.Message);
+                bstep.Enabled = false;
+                bpass.Enabled = false;
+                save.Enabled = true;
+                open.Enabled = true;
+            }
         }
 
         public void SaveAssCode(object sender, EventArgs e)

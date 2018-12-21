@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Commands
 {
-    public class AddCommand : Command
+    public class AddCommand : ICommand
     {
         public static string name = "ADD";
         private CommandModel commandModel = new CommandModel() { BinaryCode = "4", Code = "ADD", Length = 3 };
@@ -28,6 +28,7 @@ namespace Commands
 
        public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
+
             if (Config.getInstance().macroMode){
                 tableMacro.Add(new BodyMacro()
                 {

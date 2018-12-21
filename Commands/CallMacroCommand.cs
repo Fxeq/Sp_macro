@@ -7,7 +7,7 @@ using sp_macro;
 
 namespace Commands
 {
-    public class CallMacroCommand : Command
+    public class CallMacroCommand : ICommand
     {
         public LineData data => _data;
         private LineData _data;

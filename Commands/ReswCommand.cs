@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Commands
 {
-    public class ReswCommand : Command
+    public class ReswCommand : Directive
     {
         public static string name = "RESW";
         private CommandModel commandModel = new CommandModel() { BinaryCode = "0", Code = "RESW", Length = 2 };
 
-        public LineData data => _data;
+        public override LineData data => _data;
         private LineData _data;
 
         public ReswCommand(LineData lineData)
@@ -20,24 +20,16 @@ namespace Commands
             if (lineData != null)
                 checkLineData(lineData);
         }
-        public bool checkLineData(LineData lineData)
+        public override bool checkLineData(LineData lineData)
         {
+            base.checkLineData(lineData);
             if (lineData.args.Length > 1) throw new ArgumentException("Неправильный формат объявления директивы");
             _data = lineData;
             return true;
         }
 
-       public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
+        internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
-            if (Config.getInstance().macroMode){
-                tableMacro.Add(new BodyMacro()
-                {
-                    Number = tableMacro.Count(),
-                    Body = $"{data.lable?.ToString()} {data.directive.ToString()} {(data.args!=null ? data.args.get(0)?.ToString() : "")} {(data.args != null ? data.args.get(1)?.ToString() : "")}",
-                });
-                return;
-            }
-
             string varValue = null;
             if (tableV.Any(i => i.Name == Utils.GetUniquePrefix(data.args.get(0))))
             {

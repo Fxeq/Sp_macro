@@ -56,6 +56,16 @@ namespace sp_macro
         
         public StringBuilder ts = new StringBuilder();
 
+        public Func<string> CodeSource;
+
+        public string Code {
+            set
+            {
+                if (codeReader != null)
+                    codeReader.code = value;
+            }
+        }
+
         public Executor(string path)
         {
             inFile = path;
@@ -69,8 +79,8 @@ namespace sp_macro
             tableV.Clear();
             tableMacro.Clear();
             tableNMacro.Clear();
-           
 
+            ts.Clear();
             end = false; 
 
             codeReader.clear();
@@ -113,11 +123,6 @@ namespace sp_macro
         public void Preparation()
         {
             codeReader = new CodeReader();
-        }
-
-        private void Reset(object sender, EventArgs e)
-        {
-            Res();
         }
 
         public void ReadFile()
@@ -232,12 +237,15 @@ namespace sp_macro
 
             return new Message(true, null, true);
         }
+        
 
         public void Step(object sender, EventArgs e)
         {
             if (!codeReader.isCodeReady)
             {
                 Preparation();
+                ts.Clear();
+                ts.Append(CodeSource()); 
                 codeReader.code = ts.ToString();
             }
 
@@ -259,7 +267,7 @@ namespace sp_macro
 
             try
             {
-                Command command = commandDefiner.define(lineData);
+                ICommand command = commandDefiner.define(lineData);
                 if (codeReader.currentLine == 0)
                 {
                     if (command == null || !(command is StartCommand)) throw new ArgumentException("Не обнаружена директива START");
@@ -284,7 +292,7 @@ namespace sp_macro
                     while (macroCodeReader.hasNext())
                     {
                         LineData macroLineData = lineParser.parse(macroCodeReader.readNext());
-                        Command macroCommand = commandDefiner.define(macroLineData);
+                        ICommand macroCommand = commandDefiner.define(macroLineData);
 
                         if (config.stackIf.isNotEmpty() && !(macroCommand is ElseCommand || macroCommand is EndifCommand))
                         {

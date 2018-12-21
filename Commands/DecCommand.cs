@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Commands
 {
-    public class DecCommand : Command
+    public class DecCommand : Directive
     {
         public static string name = "DEC";
         private CommandModel commandModel = new CommandModel() { BinaryCode = "0", Code = "DEC", Length = 0 };
 
-        public LineData data => _data;
+        public override LineData data => _data;
         private LineData _data;
 
         public DecCommand(LineData lineData)
@@ -21,31 +21,22 @@ namespace Commands
                 checkLineData(lineData);
         }
 
-        public bool checkLineData(LineData lineData)
+        public override bool checkLineData(LineData lineData)
         {
-
+            base.checkLineData(lineData);
             if (lineData.args.get(0)?.isEmpty() == true || lineData.args.get(1)?.isNotEmpty() == true || lineData.lable?.isNotEmpty() == true)
             {
                 throw new ArgumentException("Неправильный формат записи директивы");
             }
             if (CommandDefiner.isExistCommand(lineData.args.get(0)) || CommandDefiner.isExistDirective(lineData.args.get(0)) || !Utils.validName.IsMatch(lineData.args.get(0)))
                 throw new ArgumentException("Неправильное имя переменной " + lineData.args.get(0));
-
+            
             _data = lineData;
             return true;
         }
 
-        public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
+        internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
-            if (Config.getInstance().macroMode){
-                tableMacro.Add(new BodyMacro()
-                {
-                    Number = tableMacro.Count(),
-                    Body = $"{data.lable?.ToString()} {data.directive.ToString()} {(data.args != null ? data.args.get(0)?.ToString() : "")} {(data.args != null ? data.args.get(1)?.ToString() : "")}",
-                });
-                return;
-            }
-
             if (tableV.Any(i => i.Name == Utils.GetUniquePrefix(data.args.get(0)?.ToString())))
             {
                 throw new ArgumentException("Переменная неопределена");

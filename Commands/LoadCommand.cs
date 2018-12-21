@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Commands
 {
-    public class LoadCommand : Command
+    public class LoadCommand : ICommand
     {
         public static string name = "LOAD";
         private CommandModel commandModel = new CommandModel() { BinaryCode = "2", Code = "LOAD", Length = 3 };
@@ -22,6 +22,10 @@ namespace Commands
         }
         public bool checkLineData(LineData lineData)
         {
+            if (lineData.lable.isNotEmpty() && Config.getInstance().macroMode)
+            {
+                throw new ArgumentException("Метка внутри макроса не поддерживается");
+            }
             _data = lineData;
             return true;
         }

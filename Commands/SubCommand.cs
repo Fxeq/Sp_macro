@@ -7,37 +7,29 @@ using System.Threading.Tasks;
 
 namespace Commands
 {
-    public class SubCommand : Command
+    public class SubCommand : Directive
     {
         public static string name = "SUB";
         private CommandModel commandModel = new CommandModel() { BinaryCode = "8", Code = "SUB", Length = 3 };
 
-        public LineData data => _data;
+        public override LineData data => _data;
         private LineData _data;
 
         public SubCommand(LineData lineData)
         {
+            base.checkLineData(lineData);
+
             if (lineData != null)
                 checkLineData(lineData);
         }
-        public bool checkLineData(LineData lineData)
+        public override bool checkLineData(LineData lineData)
         {
             _data = lineData;
             return true;
         }
 
-       public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
+        internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
-            if (Config.getInstance().macroMode){ 
-                tableMacro.Add(new BodyMacro()
-                {
-                    Number = tableMacro.Count(),
-                    Body = $"{data.lable?.ToString()} {data.directive.ToString()} {(data.args!=null ? data.args.get(0)?.ToString() : "")} {(data.args != null ? data.args.get(1)?.ToString() : "")}",
-                });
-                return;
-
-            }
-
             tom.Add(new Instruction()
             {
                 Name = Utils.GetUniqueLabel(data.lable),
