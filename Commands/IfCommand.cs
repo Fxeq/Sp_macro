@@ -15,6 +15,8 @@ namespace Commands
         public override LineData data => _data;
         private LineData _data;
 
+        private Config config = Config.getInstance();
+        private Stack<bool> stack => config.stackIf;
         public IfCommand(LineData lineData)
         {
             if (lineData != null)
@@ -27,7 +29,7 @@ namespace Commands
 
             if (lineData.args?.isEmpty() == true ||
                 lineData.args?.Length != 3 ||
-                lineData.lable?.isNotEmpty() == true || 
+                lineData.lable?.isNotEmpty() == true ||
                 !Utils.validOperation.IsMatch(lineData.args.get(1)))
             {
                 throw new ArgumentException("Неправильный формат записи условия");
@@ -36,6 +38,13 @@ namespace Commands
             return true;
         }
 
+        public override void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
+        {
+            if (config.macroMode) { stack.Push(false); }
+
+            base.execute(tableNMacro, tableV, tableMacro, tom);
+
+        }
         internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
             Config config = Config.getInstance();

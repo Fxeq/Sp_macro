@@ -15,6 +15,9 @@ namespace Commands
         private int _startMacro = 0;
         public int startMacro { get { return _startMacro; } }
 
+        private int _endMacro = 0;
+        public int endMacro { get { return _endMacro; } }
+
         public CallMacroCommand(LineData lineData)
         {
             if (lineData != null)
@@ -43,6 +46,7 @@ namespace Commands
             Config.getInstance().stack.Push(macro.Name);
 
             _startMacro = macro.StartIndex;
+            _endMacro = macro.EndIndex;
             int callMacroCount = macro.EndIndex;
 
             string mArg1 = macro.Arg1;

@@ -13,6 +13,7 @@ namespace sp_macro
         public bool isCodeReady { get { return _isCodeReady; } }
         private bool _isCodeReady = false;
         private int _currentLine = -1;
+        private int fixedLine = -1;
         public string code {
             set {
                 if (value.Trim().Length == 0) throw new ArgumentException("Необнаружено исходного текста");
@@ -50,6 +51,11 @@ namespace sp_macro
             _currentLine = -1;
             linesArray = new string[] { };
 
+        }
+
+        public void fixIndexLine()
+        {
+            fixedLine = _currentLine;
         }
     }
 }

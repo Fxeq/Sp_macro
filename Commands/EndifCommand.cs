@@ -34,17 +34,12 @@ namespace Commands
         public override void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
             Config config = Config.getInstance();
+
+            if (config.macroMode && config.stackIf.isEmpty()) throw new ArgumentException($"Обнаружена директива {name}, но не обнаружено директивы IF");
+
             config.stackIf.Pop();
 
-            if (config.macroMode)
-            {
-                tableMacro.Add(new BodyMacro()
-                {
-                    Number = tableMacro.Count(),
-                    Body = $"{data.lable?.ToString()} {data.directive.ToString()} {(data.args != null ? data.args.get(0)?.ToString() : "")} {(data.args != null ? data.args.get(1)?.ToString() : "")}",
-                });
-                return;
-            }
+            base.execute(tableNMacro, tableV, tableMacro, tom);
 
         }
 

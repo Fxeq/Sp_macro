@@ -287,18 +287,26 @@ namespace sp_macro
             }
             if (command == null)
             {
-                if (lineData.args.get(1)?.isNotEmpty() == true) throw new ArgumentException("Неправильный формат объявления директивы");
-                if (lineData.lable?.isNotEmpty() == true && Config.getInstance().macroMode) throw new ArgumentException("Макропроцессор не поддерживает макровызовы внутри макроопределений");
-                else if (lineData.lable?.isNotEmpty() == true && !Config.getInstance().macroMode)
-                {
+                findMacroDefine(lineData.lable);
+                if (lineData.args?.get(1)?.isNotEmpty() == true) throw new ArgumentException("Неправильный формат объявления директивы");
 
+                else if (lineData.lable?.isNotEmpty() == true && Config.getInstance().macroMode)
+                {
+                    if (!config.lateInitMacros.ContainsKey(lineData.lable))
+                    {
+                        config.lateInitMacros.Add(lineData.lable, new List<int>(codeReader.currentLine));
+
+                    } else
+                    {
+                        config.lateInitMacros[lineData.lable].Add(codeReader.currentLine);
+                    }
                 }
                 else throw new ArgumentException($"Макропроцессор не поддерживает директиву.");
             }
 
-            if (config.stackIf.isNotEmpty() && !(command is ElseCommand || command is EndifCommand))
+            if (config.stackIf.isNotEmpty() && !(command is ElseCommand || command is EndifCommand) && !config.macroMode)
             {
-                if (config.stackIf.isNotEmpty() && !config.stackIf.Peek())
+                if (config.stackIf.isNotEmpty() && !config.stackIf.Peek() && !config.macroMode)
                 {
                     return;
                 }
@@ -307,7 +315,7 @@ namespace sp_macro
             if (command is WhileCommand)
                 config.whileIndex = codeReader.currentLine - 1;
 
-            if (config.stackWhile.isNotEmpty() && config.stackWhile.Peek())
+            if (config.stackWhile.isNotEmpty() && config.stackWhile.Peek() && !config.macroMode)
             {
                 if (config.stackWhile.Count > 50) throw new ArgumentException("Обнаружен бесконечный цикл");
                 if (command is EndwCommand)
@@ -316,15 +324,17 @@ namespace sp_macro
                     return;
                 }
             }
-            else if (config.stackWhile.isNotEmpty() && !config.stackWhile.Peek() && !(command is EndwCommand))
+            else if (config.stackWhile.isNotEmpty() && !config.stackWhile.Peek() && !(command is EndwCommand) && !config.macroMode)
             {
                 return;
             }
             command.execute(tableNMacro, tableV, tableMacro, tom);
+
             if (command is CallMacroCommand && !config.macroMode)
             {
                 CodeReader macroCodeReader = new CodeReader();
-                macroCodeReader.codeLinesList = tableMacro.startFrom((command as CallMacroCommand).startMacro).map(item => item.Body);
+                var macroCommand = command as CallMacroCommand;
+                macroCodeReader.codeLinesList = tableMacro.range(macroCommand.startMacro, macroCommand.endMacro + 1).map(item => item.Body);
                 while (macroCodeReader.hasNext())
                 {
                     LineData macroLineData = lineParser.parse(macroCodeReader.readNext());
@@ -337,6 +347,11 @@ namespace sp_macro
                 end = true;
                 // Res();
             }
+        }
+
+        private void findMacroDefine(string label)
+        {
+            codeReader.fi
         }
 
     }

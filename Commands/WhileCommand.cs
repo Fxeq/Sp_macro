@@ -36,6 +36,15 @@ namespace Commands
             return true;
         }
 
+
+        public override void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
+        {
+            var config = Config.getInstance();
+            if (config.macroMode) config.stackWhile.Push(false);
+
+            base.execute(tableNMacro, tableV, tableMacro, tom);
+        }
+
         internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
             Config config = Config.getInstance();

@@ -17,6 +17,8 @@ namespace Commands
         public Dictionary<string, MacroCommand> macros = new Dictionary<string, MacroCommand>();
         private MacroCommand macroCommand = null;
         public Dictionary<string, string> unigueLabel { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, List<int>> lateInitMacros;
+
 
         public static Config getInstance()
         {
@@ -29,6 +31,7 @@ namespace Commands
             stack = new Stack<string>();
             stackIf = new Stack<bool>();
             stackWhile = new Stack<bool>();
+            lateInitMacros = new Dictionary<string, List<int>>();
             macroMode = false;
         }
 
@@ -42,6 +45,12 @@ namespace Commands
             if (macroCommand != null)
             {
                 macros[macroCommand.data.lable] = macroCommand;
+
+                if (lateInitMacros.ContainsKey(macroCommand.data.lable))
+                {
+                    foreach (int item in lateInitMacros[macroCommand.data.lable])
+                        changeCursorListener(item);
+                }
                 macroCommand = null;
             }
         }

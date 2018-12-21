@@ -32,6 +32,8 @@ namespace Commands
             Config config = Config.getInstance();
             if (config.stackIf.Count != 0)
                 throw new ArgumentException("Не все ветви IF имеют ENDIF ");
+            if (config.stackWhile.Count != 0)
+                throw new ArgumentException("Не все WHILE имеют ENDW ");
 
             if (tableNMacro.ToList().Last().StartIndex != tableMacro.Count())
             {

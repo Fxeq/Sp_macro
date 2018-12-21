@@ -35,6 +35,11 @@ namespace sp_macro
             return data?.Count != 0;
         }
 
+        public static bool isEmpty<T>(this Stack<T> data)
+        {
+            return data == null || data?.Count == 0;
+        }
+
         public static bool isNotEmpty(this string value)
         {
             return value != null && !value.Equals("");
@@ -62,10 +67,12 @@ namespace sp_macro
         }
 
 
-        public static IList<T> startFrom<T>(this IList<T> data, int index)
+        public static IList<T> range<T>(this IList<T> data, int start, int end = -1)
         {
+            if (end == -1) end = data.Count;
+            
             IList<T> newList = new List<T>();
-            for (int i = index; i < data.Count; i++)
+            for (int i = start; i < end; i++)
             {
                 newList.Add(data[i]);
             }

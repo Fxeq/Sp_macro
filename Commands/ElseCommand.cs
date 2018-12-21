@@ -14,7 +14,7 @@ namespace Commands
 
         public override LineData data => _data;
         private LineData _data;
-
+        private  Config config = Config.getInstance();
         public ElseCommand(LineData lineData)
         {
             if (lineData != null)
@@ -36,22 +36,15 @@ namespace Commands
 
         public override void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
-            var config = Config.getInstance();
-            Stack<bool> stack = Config.getInstance().stackIf;
-            if (config.macroMode){
-                stack.Push(false);
-                tableMacro.Add(new BodyMacro()
-                {
-                    Number = tableMacro.Count(),
-                    Body = $"{data.lable?.ToString()} {data.directive.ToString()} {(data.args!=null ? data.args.get(0)?.ToString() : "")} {(data.args != null ? data.args.get(1)?.ToString() : "")}",
-                });
-                return;
-            }
+            if (config.macroMode && config.stackIf.isEmpty()) throw new ArgumentException($"Обнаружена директива {name}, но не обнаружено директивы IF");
 
+            base.execute(tableNMacro, tableV, tableMacro, tom);
+        }
+
+        internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom){
+            Stack<bool> stack = config.stackIf;
             var value = stack.Pop();
             stack.Push(!value);
         }
-
-        internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom){}
     }
 }
