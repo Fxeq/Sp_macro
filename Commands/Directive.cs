@@ -18,9 +18,14 @@ namespace Commands
             if (lineData == null) return false;
 
             var label = lineData.lable;
-            if (label.isNotEmpty() && !Utils.validMacroLable.IsMatch(label) && Config.getInstance().macroMode)
+            if (label.isNotEmpty())
             {
-                throw new ArgumentException("Метка внутри макроса не поддерживается");
+                if (!Utils.validMacroLable.IsMatch(label) && Config.getInstance().macroMode)
+                {
+                    throw new ArgumentException("Метка внутри макроса не поддерживается");
+                }
+
+                if (label.Length > 6) throw new ArgumentException("Неправильный формат ассемблерной метки");
             }
 
 

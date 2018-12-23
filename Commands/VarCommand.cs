@@ -27,12 +27,12 @@ namespace Commands
             {
                 throw new ArgumentException("Отсутсвует обязательное имя переменной");
             }
-            if ( lineData.args.get(1)?.isEmpty() == true || lineData.lable?.isNotEmpty() == true)
+            if ( lineData.args.get(1)?.isEmpty() == true )
             {
                 throw new ArgumentException("Неправильный формат записи директивы");
             }
             
-            if (CommandDefiner.isExistCommand(lineData.args.get(0)) || CommandDefiner.isExistDirective(lineData.args.get(0)))
+            if (CommandDefiner.isExistCommand(lineData.args.get(0)) || CommandDefiner.isExistDirective(lineData.args.get(0)) || lineData.args.get(0).Length > 6)
                 throw new ArgumentException("Некорректное имя переменной ");
 
             _data = lineData;
@@ -54,7 +54,7 @@ namespace Commands
             int value = Utils.ConvertTo10(val);
             if (value == -1)
             {
-                throw new ArgumentException($"Для переменной {data.args?.get(1)} определенно неправильное значение\n");
+                throw new ArgumentException($"Для переменной {data.args?.get(0)} определенно неправильное значение\n");
             }
 
             tableV.Add(new Variable() { Name = Utils.GetUniquePrefix(data.args?.get(0)), Value = value.ToString(), Scope = Config.getInstance().stack.Peek(), });
