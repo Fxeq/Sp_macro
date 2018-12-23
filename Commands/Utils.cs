@@ -22,13 +22,15 @@ namespace Commands
 
         public static  Regex validCommand = new Regex(@"^([A-Z]+)$");
 
-        public static  Regex validName = new Regex(@"^([a-zA-Z]*)([0-9_]*)$");
+        public static  Regex validName = new Regex(@"^.?([a-zA-Z]*)([0-9_]*)$");
 
         public static  Regex validOperation = new Regex(@"^((>)|(<)|(>=)|(<=)|(!=)|(==))$");
 
         public static  Regex validArg = new Regex(@"^((ARG)([0-9]+))(=)([0-9]+)$");
 
         public static  Regex validArgKey = new Regex(@"^((ARG)([0-9]+))(=)([a-zA-Z0-9]+)$");
+
+        public static Regex validMacroLable = new Regex(@"^.([A-Za-z]+[0-9]*)$");
 
         private static Config config = Config.getInstance();
 

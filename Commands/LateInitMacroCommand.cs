@@ -32,7 +32,7 @@ namespace Commands
                 tableMacro.Add(new BodyMacro()
                 {
                     Number = tableMacro.Count(),
-                    Body = $"{data.lable?.ToString()}",
+                    data =  data,
                 });
                 return;
             }

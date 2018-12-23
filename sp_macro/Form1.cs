@@ -72,6 +72,8 @@
             om.DataSource = executor.tom;
             tim.DataSource = executor.tableNMacro;
 
+            tm.Columns["data"].Visible = false;
+
             SelectLine();
         }
 

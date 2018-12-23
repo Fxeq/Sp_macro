@@ -9,6 +9,7 @@ namespace sp_macro
     public class BodyMacro
     {
         public int Number { get; set; }
-        public string Body { get; set; }
+        public string Body { get { return $"{data.lable?.ToString()} {(data.directive.isNotEmpty() ? data.directive?.ToString() : data.command?.ToString())} {(data.args.isNotEmpty() ? string.Join(" ", data.args) : "")}"; } }
+        public LineData data { get; set; }
     }
 }

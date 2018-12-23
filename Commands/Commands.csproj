@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AGo.cs" />
+    <Compile Include="AIF.cs" />
     <Compile Include="CallMacroCommand.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Directive.cs" />

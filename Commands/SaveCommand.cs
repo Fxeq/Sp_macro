@@ -37,7 +37,7 @@
                 tableMacro.Add(new BodyMacro()
                 {
                     Number = tableMacro.Count(),
-                    Body = $"{data.lable?.ToString()} {data.command.ToString()} {(data.args != null ? data.args.get(0)?.ToString() : "")} {(data.args != null ? data.args.get(1)?.ToString() : "")}",
+                    data = data,
                 });
                 return;
             }

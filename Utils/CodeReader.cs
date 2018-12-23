@@ -61,6 +61,8 @@ namespace sp_macro
             _isCodeReady = false;
             _currentLine = -1;
             linesArray = new string[] { };
+            fixedLine = -1;
+            doneLines.Clear();
 
         }
 

@@ -11,13 +11,22 @@ namespace Commands
     {
         public abstract LineData data { get; }
 
+        private Config config = Config.getInstance();
+
         public virtual bool checkLineData(LineData lineData)
         {
             if (lineData == null) return false;
 
-            if (lineData.lable.isNotEmpty() && Config.getInstance().macroMode)
+            var label = lineData.lable;
+            if (label.isNotEmpty() && !Utils.validMacroLable.IsMatch(label) && Config.getInstance().macroMode)
             {
                 throw new ArgumentException("Метка внутри макроса не поддерживается");
+            }
+
+
+            if (config.stackWhile.Count != 0 && label.isNotEmpty())
+            {
+                throw new ArgumentException("Внутри цикла обнаружена ассемблерная метка");
             }
             return false;
         }
@@ -29,7 +38,7 @@ namespace Commands
                 tableMacro.Add(new BodyMacro()
                 {
                     Number = tableMacro.Count(),
-                    Body = $"{data.lable?.ToString()} {data.directive?.ToString()} {(data.args.isNotEmpty() ? string.Join(" ", data.args) : "")}",
+                    data = data
                 });
                 return;
             }

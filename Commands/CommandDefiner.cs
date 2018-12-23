@@ -27,6 +27,8 @@
                 {SetCommand.name, () => new SetCommand(_lineData) },
                 {IncCommand.name, () => new IncCommand(_lineData) },
                 {DecCommand.name, () => new DecCommand(_lineData) },
+            {AifCommand.name, () => new AifCommand(_lineData) },
+            {AgoCommand.name, () => new AgoCommand(_lineData) }
         };
 
         public static Dictionary<string, Func<ICommand>> commands = new Dictionary<string, Func<ICommand>>()

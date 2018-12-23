@@ -90,6 +90,9 @@ namespace sp_macro
 
             codeReader.clear();
             config.clear();
+
+            stopMacroIndex = -1;
+            findMacroMode = false;
         }
 
         public void Init()
@@ -326,6 +329,8 @@ namespace sp_macro
             if (command is WhileCommand)
                 config.whileIndex = codeReader.currentLine - 1;
 
+            
+
             if (config.stackWhile.isNotEmpty() && config.stackWhile.Peek() && !config.macroMode)
             {
                 if (config.stackWhile.Count > 50) throw new ArgumentException("Обнаружен бесконечный цикл");
@@ -338,7 +343,24 @@ namespace sp_macro
             {
                 return command;
             }
+
+            if (command is AifCommand)
+            {
+                (command as AifCommand).changeLineIndex = index => {
+                    codeReader.currentLine = index - 1;
+                    return 0;
+                };
+            }
+
+            if (command is AgoCommand)
+            {
+                (command as AgoCommand).changeLineIndex = index => {
+                    codeReader.currentLine = index - 1;
+                    return 0;
+                };
+            }
             command.execute(tableNMacro, tableV, tableMacro, tom);
+
 
             if (command is CallMacroCommand && !config.macroMode)
             {

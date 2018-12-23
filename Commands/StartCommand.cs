@@ -48,7 +48,7 @@ namespace Commands
                 tableMacro.Add(new BodyMacro()
                 {
                     Number = tableMacro.Count(),
-                    Body = $"{data.lable?.ToString()} {data.directive.ToString()} {(data.args != null ? data.args.get(0)?.ToString() : "")} {(data.args != null ? data.args.get(1)?.ToString() : "")}",
+                    data = data,
                 });
                 return;
             }
