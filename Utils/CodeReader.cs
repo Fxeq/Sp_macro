@@ -9,11 +9,17 @@ namespace sp_macro
     public class CodeReader
     {
         private string[] linesArray;
-        public int currentLine { get { return _currentLine;  } set { _currentLine = value; } }
-        public bool isCodeReady { get { return _isCodeReady; } }
+
         private bool _isCodeReady = false;
+        public bool isCodeReady { get { return _isCodeReady; } }
+
         private int _currentLine = -1;
+        public int currentLine { get { return _currentLine; } set { _currentLine = value; } }
+
+        private Dictionary<int, int> doneLines = new Dictionary<int, int>();
+
         private int fixedLine = -1;
+
         public string code {
             set {
                 if (value.Trim().Length == 0) throw new ArgumentException("Необнаружено исходного текста");
@@ -31,7 +37,12 @@ namespace sp_macro
 
         public string readNext() {
             if (++_currentLine < linesArray.Length)
+            {
+                if (doneLines.ContainsKey(_currentLine - 1) && doneLines[_currentLine - 1] != -1)
+                    _currentLine = doneLines[_currentLine - 1];
+
                 return linesArray[_currentLine];
+            }
             else
                 throw new EofException();
         }
@@ -55,7 +66,22 @@ namespace sp_macro
 
         public void fixIndexLine()
         {
-            fixedLine = _currentLine;
+            fixedLine = _currentLine - 1;
+        }
+
+        public void returnLine()
+        {
+            _currentLine = fixedLine;
+        }
+
+        public void saveStartIndexLine()
+        {
+            doneLines.Add(_currentLine - 1, -1);
+        }
+
+        public void saveLastIndexLine()
+        {
+           doneLines[doneLines.Last().Key] = _currentLine + 1;
         }
     }
 }

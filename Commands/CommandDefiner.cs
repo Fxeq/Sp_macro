@@ -57,7 +57,7 @@
             if (isExistDirective(lineData.directive)) command = directives[lineData.directive]();
             else if (isExistCommand(lineData.command)) command = commands[lineData.command]();
             else if (lineData.lable.isNotEmpty() && Config.getInstance().macros.ContainsKey(lineData.lable)) command = new CallMacroCommand(lineData);
-            //else if (lineData.lable.isNotEmpty() && !Config.getInstance().macros.ContainsKey(lineData.lable)) command = new LateInitMacroCommand(lineData);
+            else if (command == null && lineData.lable.isNotEmpty() && !Config.getInstance().macros.ContainsKey(lineData.lable)) command = new LateInitMacroCommand(lineData);
 
             if (command is Directive) command = command as Directive;
             command?.checkLineData(lineData);

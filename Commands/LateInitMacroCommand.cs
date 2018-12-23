@@ -7,24 +7,35 @@ using sp_macro;
 
 namespace Commands
 {
-    public class LateInitMacroCommand : Directive
+    public class LateInitMacroCommand : ICommand
     {
 
         private LineData _data = null;
-        public override LineData data => _data;
+        public LineData data => _data;
 
         public LateInitMacroCommand(LineData lineData)
         {
             if (lineData != null)
                 checkLineData(lineData);
         }
-        public override bool checkLineData(LineData lineData)
+        public bool checkLineData(LineData lineData)
         {
-            return base.checkLineData(lineData);
+            if (lineData?.lable?.Equals(Config.getInstance().macroCommand?.data?.lable) == true) throw new ArgumentException("Обнаружено зацикливание");
+            _data = lineData;
+            return true;
         }
 
-        internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
+        public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
+            if (Config.getInstance().macroMode)
+            {
+                tableMacro.Add(new BodyMacro()
+                {
+                    Number = tableMacro.Count(),
+                    Body = $"{data.lable?.ToString()}",
+                });
+                return;
+            }
         }
     }
 }

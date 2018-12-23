@@ -32,6 +32,8 @@ namespace sp_macro
 
         private Config config = Config.getInstance();
 
+        private bool findMacroMode = false;
+
         internal BindingList<NameMacro> tableNMacro { get; set; }
 
         internal BindingList<Variable> tableV { get; set; }
@@ -57,6 +59,8 @@ namespace sp_macro
         public StringBuilder ts = new StringBuilder();
 
         public Func<string> CodeSource;
+
+        private int stopMacroIndex = -1;
 
         public string Code
         {
@@ -277,7 +281,7 @@ namespace sp_macro
 
         }
 
-        private void executeLine(CodeReader codeReader, LineData lineData, bool isMacro)
+        private ICommand executeLine(CodeReader codeReader, LineData lineData, bool isMacro)
         {
             ICommand command = commandDefiner.define(lineData);
             if (codeReader.currentLine == 0 && !isMacro)
@@ -287,7 +291,8 @@ namespace sp_macro
             }
             if (command == null)
             {
-                findMacroDefine(lineData.lable);
+                if(!config.macroMode && !findMacroDefine(lineData.lable)) throw new ArgumentException("Макроопределение не найдено");
+
                 if (lineData.args?.get(1)?.isNotEmpty() == true) throw new ArgumentException("Неправильный формат объявления директивы");
 
                 else if (lineData.lable?.isNotEmpty() == true && Config.getInstance().macroMode)
@@ -303,12 +308,18 @@ namespace sp_macro
                 }
                 else throw new ArgumentException($"Макропроцессор не поддерживает директиву.");
             }
+            if (command is LateInitMacroCommand)
+            {
+                if (!config.macroMode && !findMacroDefine(lineData.lable))
+                    throw new ArgumentException("Макроопределение не найдено");
+
+            }
 
             if (config.stackIf.isNotEmpty() && !(command is ElseCommand || command is EndifCommand) && !config.macroMode)
             {
                 if (config.stackIf.isNotEmpty() && !config.stackIf.Peek() && !config.macroMode)
                 {
-                    return;
+                    return command;
                 }
             }
 
@@ -321,12 +332,11 @@ namespace sp_macro
                 if (command is EndwCommand)
                 {
                     codeReader.currentLine = config.whileIndex;
-                    return;
                 }
             }
             else if (config.stackWhile.isNotEmpty() && !config.stackWhile.Peek() && !(command is EndwCommand) && !config.macroMode)
             {
-                return;
+                return command;
             }
             command.execute(tableNMacro, tableV, tableMacro, tom);
 
@@ -335,11 +345,29 @@ namespace sp_macro
                 CodeReader macroCodeReader = new CodeReader();
                 var macroCommand = command as CallMacroCommand;
                 macroCodeReader.codeLinesList = tableMacro.range(macroCommand.startMacro, macroCommand.endMacro + 1).map(item => item.Body);
+
+                if (stopMacroIndex != -1)
+                {
+                    macroCodeReader.currentLine = stopMacroIndex;
+                    stopMacroIndex = -1;
+                }
                 while (macroCodeReader.hasNext())
                 {
                     LineData macroLineData = lineParser.parse(macroCodeReader.readNext());
-                    executeLine(macroCodeReader, macroLineData, true);
+                    var executingCommand = executeLine(macroCodeReader, macroLineData, true);
+                    if (executingCommand is LateInitMacroCommand)
+                    {
+                        stopMacroIndex = macroCodeReader.currentLine - 1;
+                    }
                 }
+            }
+
+            if (command is MendCommand && findMacroMode)
+            {
+                codeReader.saveLastIndexLine();
+                codeReader.returnLine();
+
+                findMacroMode = false;
             }
 
             if (command is EndCommand)
@@ -347,12 +375,34 @@ namespace sp_macro
                 end = true;
                 // Res();
             }
+
+            return command;
         }
 
-        private void findMacroDefine(string label)
+        private bool findMacroDefine(string label)
         {
-            codeReader.fi
+            codeReader.fixIndexLine();
+            int macroIndex = -1;
+
+            while (codeReader.hasNext())
+            {
+                var line = codeReader.readNext();
+                var data = lineParser.parse(line);
+
+                var command = commandDefiner.define(data);
+                if(command is MacroCommand && command.data.lable.Equals(label))
+                {
+                    //macroIndex = codeReader.currentLine;
+                    codeReader.saveStartIndexLine();
+                    codeReader.currentLine = codeReader.currentLine - 1;
+                    findMacroMode = true;
+                    return true;
+                }
+            }
+            return false;
+
         }
+
 
     }
 }

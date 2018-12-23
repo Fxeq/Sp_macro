@@ -43,7 +43,8 @@ namespace Commands
 
         internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
-            Config.getInstance().stackWhile.Pop();
+            var stackWhile = Config.getInstance().stackWhile;
+            if (stackWhile.Count > 0) stackWhile.Pop();
         }
     }
 }

@@ -15,7 +15,9 @@ namespace Commands
         public int whileIndex { get; set; } = -1;
         public bool macroMode { get; set; } = false;
         public Dictionary<string, MacroCommand> macros = new Dictionary<string, MacroCommand>();
-        private MacroCommand macroCommand = null;
+        private MacroCommand _macroCommand = null;
+        public MacroCommand macroCommand { get { return _macroCommand; } }
+
         public Dictionary<string, string> unigueLabel { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, List<int>> lateInitMacros;
 
@@ -37,21 +39,21 @@ namespace Commands
 
         public void openMacro(MacroCommand macro)
         {
-            macroCommand = macro;
+            _macroCommand = macro;
         }
 
         public void closeLastMacro()
         {
-            if (macroCommand != null)
+            if (_macroCommand != null)
             {
-                macros[macroCommand.data.lable] = macroCommand;
+                macros[_macroCommand.data.lable] = _macroCommand;
 
-                if (lateInitMacros.ContainsKey(macroCommand.data.lable))
-                {
-                    foreach (int item in lateInitMacros[macroCommand.data.lable])
-                        changeCursorListener(item);
-                }
-                macroCommand = null;
+                //if (lateInitMacros.ContainsKey(macroCommand.data.lable))
+                //{
+                //    foreach (int item in lateInitMacros[macroCommand.data.lable])
+                //        changeCursorListener(item);
+                //}
+                _macroCommand = null;
             }
         }
 
@@ -63,7 +65,7 @@ namespace Commands
             whileIndex = -1;
             macroMode = false;
             macros.Clear();
-            macroCommand = null;
+            _macroCommand = null;
             unigueLabel.Clear();
         }
     }
