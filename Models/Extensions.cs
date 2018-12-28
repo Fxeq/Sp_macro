@@ -79,6 +79,15 @@ namespace sp_macro
 
             return newList;
         }
+        public static IList<T> deleteWhere<T>(this List<T> data, Predicate<T> match)
+        {
+            IList<T> removeList = data.FindAll(match);
+            foreach(T item in removeList){
+                data.Remove(item);
+            }
+
+            return data;
+        }
         
     }
 }

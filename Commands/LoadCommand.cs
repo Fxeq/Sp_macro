@@ -23,6 +23,10 @@ namespace Commands
         public override bool checkLineData(LineData lineData)
         {
             base.checkLineData(lineData);
+            foreach (string arg in lineData.args)
+            {
+                if (!Utils.isReg(arg)) throw new ArgumentException("Команда поддерживает только регистры");
+            }
             _data = lineData;
             return true;
         }

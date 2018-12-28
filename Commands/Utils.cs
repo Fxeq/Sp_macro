@@ -32,6 +32,13 @@ namespace Commands
 
         public static Regex validMacroLable = new Regex(@"^.([A-Za-z]+[0-9]*)$");
 
+
+        public static Dictionary<string, int> regs = new Dictionary<string, int>()
+            {
+                { "R0", 00}, { "R1", 01}, { "R2", 02}, { "R3", 03}, { "R4", 04}, { "R5", 05}, { "R6", 06}, { "R7", 07},
+                { "R8", 08}, { "R9", 09}, { "R10", 10}, { "R11", 11}, { "R12", 12}, { "R13", 13}, { "R14", 14}, { "R15", 15},
+            };
+
         private static Config config = Config.getInstance();
 
         public static int ConvertTo16(string arg)
@@ -46,6 +53,8 @@ namespace Commands
                 return -1;
             }
         }
+
+        public static bool isReg(string arg) => regs.ContainsKey(arg);
 
         public static int ConvertTo10(string arg)
         {
@@ -63,7 +72,7 @@ namespace Commands
 
         public static string StringFormatCommand(int arg) => string.Format("{0:X}", arg).PadLeft(2, '0');
 
-        public static string GetUniquePrefix(string arg = "") => $"{config.stack.Peek()}_{config.stack.Count()}_{arg}";
+        public static string GetUniquePrefix(string arg = "") => $"{config.stack.Peek()}_{arg}_{config.stack.Count()}";
 
         public static bool Compare(string first, string second, string sign)
         {

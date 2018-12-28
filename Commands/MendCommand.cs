@@ -15,6 +15,8 @@ namespace Commands
         public LineData data => _data;
         private LineData _data;
 
+        private Config config = Config.getInstance();
+
         public MendCommand(LineData lineData)
         {
             if (lineData != null)
@@ -23,13 +25,14 @@ namespace Commands
         public bool checkLineData(LineData lineData)
         {
             if (lineData.lable.isNotEmpty() || lineData.args.isNotEmpty()) throw new ArgumentException("Неправильный формат объявления директивы " + lineData.directive);
+
             _data = lineData;
             return true;
         }
 
         public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
-            Config config = Config.getInstance();
+            config.macroMode = false;
             if (config.stackIf.Count != 0)
                 throw new ArgumentException("Не все ветви IF имеют ENDIF ");
             if (config.stackWhile.Count != 0)
@@ -44,7 +47,6 @@ namespace Commands
                 tableNMacro.ToList().Last().StartIndex = -1;
                 tableNMacro.ToList().Last().EndIndex = -1;
             }
-            config.macroMode = false;
 
             config.closeLastMacro();
         }

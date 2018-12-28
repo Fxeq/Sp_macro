@@ -62,6 +62,8 @@ namespace sp_macro
 
         private int stopMacroIndex = -1;
 
+        private double startTime = -1;
+
         public string Code
         {
             set
@@ -264,11 +266,16 @@ namespace sp_macro
                 if (lineCode.isEmpty()) return;
 
                 LineData lineData = lineParser.parse(lineCode);
+
+                startTime = (DateTime.Now - DateTime.MinValue).TotalMilliseconds;
+                config.inProgress = true;
                 executeLine(codeReader, lineData, false);
+                config.inProgress = false;
             }
             catch (EofException ex)
             {
-                end = true;
+
+                if (!end) throw new ArgumentException("Отсутсвует директива END");
                 return;
             }
             catch (Exception ex)
@@ -277,6 +284,12 @@ namespace sp_macro
                 err.Append(ex.Message);
                 err.Append(" Строка №" + (codeReader.currentLine + 1));
                 err.Append("\n" + ex.StackTrace);
+
+                if(ex is OutOfMemoryException)
+                {
+                    tom.Clear();
+                    tableV.Clear();
+                }
                 throw new ArgumentException(err.ToString());
 
             }
@@ -286,6 +299,8 @@ namespace sp_macro
 
         private ICommand executeLine(CodeReader codeReader, LineData lineData, bool isMacro)
         {
+            var timeExecute = (DateTime.Now - DateTime.MinValue).TotalMilliseconds;
+            if (timeExecute - startTime > 100 * 20) throw new OutOfMemoryException("Обнаружено зацикливание");
             ICommand command = commandDefiner.define(lineData);
             if (codeReader.currentLine == 0 && !isMacro)
             {
@@ -313,9 +328,12 @@ namespace sp_macro
             }
             if (command is LateInitMacroCommand)
             {
-                if (!config.macroMode && !findMacroDefine(lineData.lable))
-                    throw new ArgumentException("Макроопределение не найдено");
-
+                if (!config.macroMode)
+                {
+                    var isFind = findMacroDefine(lineData.lable);
+                    if (!isFind)
+                        throw new ArgumentException("Макроопределение не найдено");
+                }
             }
 
             if (config.stackIf.isNotEmpty() && !(command is ElseCommand || command is EndifCommand) && !config.macroMode)
@@ -333,7 +351,7 @@ namespace sp_macro
 
             if (config.stackWhile.isNotEmpty() && config.stackWhile.Peek() && !config.macroMode)
             {
-                if (config.stackWhile.Count > 50) throw new ArgumentException("Обнаружен бесконечный цикл");
+               // if (config.stackWhile.Count > 50) throw new ArgumentException("Обнаружен бесконечный цикл");
                 if (command is EndwCommand)
                 {
                     codeReader.currentLine = config.whileIndex;
@@ -380,14 +398,28 @@ namespace sp_macro
                     if (executingCommand is LateInitMacroCommand)
                     {
                         stopMacroIndex = macroCodeReader.currentLine - 1;
+                        return executingCommand;
                     }
                 }
+
+                //config.variables.deleteWhere(item => item.Scope == config.stack.Peek());
+                //tableV.Clear();
+                //foreach (Variable variable in config.variables)
+                //{
+                //    tableV.Add(variable);
+                //}
+                tableV.Clear();
+
+                config.variables.Remove(config.stack.Peek());
+                config.variables.Values.ToList().ForEach(item => item.ForEach(i => tableV.Add(i)));
+                config.stack.Pop();
             }
 
             if (command is MendCommand && findMacroMode)
             {
                 codeReader.saveLastIndexLine();
                 codeReader.returnLine();
+                config.stack.Pop();
 
                 findMacroMode = false;
             }
@@ -411,8 +443,8 @@ namespace sp_macro
                 var line = codeReader.readNext();
                 var data = lineParser.parse(line);
 
-                var command = commandDefiner.define(data);
-                if(command is MacroCommand && command.data.lable.Equals(label))
+                var command = commandDefiner.define(data, false);
+                if(command is MacroCommand && command?.data?.lable?.Equals(label) == true)
                 {
                     //macroIndex = codeReader.currentLine;
                     codeReader.saveStartIndexLine();

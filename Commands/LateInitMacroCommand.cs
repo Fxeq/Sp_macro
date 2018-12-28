@@ -27,12 +27,13 @@ namespace Commands
 
         public void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
-            if (Config.getInstance().macroMode)
+            var config = Config.getInstance();
+            if (config.macroMode)
             {
                 tableMacro.Add(new BodyMacro()
                 {
                     Number = tableMacro.Count(),
-                    data =  data,
+                    data = data,
                 });
                 return;
             }

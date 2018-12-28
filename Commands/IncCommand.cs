@@ -38,10 +38,10 @@ namespace Commands
 
         internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
-            
+            var config = Config.getInstance();
             Variable variable = tableV.FirstOrDefault(i => i.Name == Utils.GetUniquePrefix(data.args.get(0)?.ToString()));
             if (variable == null)
-                throw new ArgumentException("Переменная неопределена");
+                throw new ArgumentException($"Переменная {data.args.get(0)?.ToString()} неопределена");
             try
             {
                 int val = int.Parse(variable.Value) + 1;

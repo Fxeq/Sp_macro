@@ -27,10 +27,10 @@ namespace Commands
                 if (label.Length > 6) throw new ArgumentException("Неправильный формат ассемблерной метки");
             }
 
-            if (config.stackWhile.Count != 0 && label.isNotEmpty())
-            {
-                throw new ArgumentException("Внутри цикла обнаружена ассемблерная метка");
-            }
+            //if (config.stackWhile.Count != 0 && label.isNotEmpty() && config.macroCommand?.data?.lable?.Equals(config.stack.Peek()) == true)
+            //{
+            //    throw new ArgumentException("Внутри цикла обнаружена ассемблерная метка");
+            //}
 
             return false;
         }

@@ -36,14 +36,18 @@ namespace Commands
 
         internal override void make(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
-            tableV.Clear();
+            Config config = Config.getInstance();
+
+            if (!config.inProgress)
+                tableV.Clear();
+
             var macro = tableNMacro.FirstOrDefault(i => i.Name == data.lable);
             if (macro == null)
             {
                 throw new ArgumentException($"Макроопределение {data.lable} неопределенно");
             }
 
-            Config.getInstance().stack.Push(macro.Name);
+            config.stack.Push(macro.Name);
 
             _startMacro = macro.StartIndex;
             _endMacro = macro.EndIndex;
@@ -55,7 +59,7 @@ namespace Commands
             if (mArg1.isEmpty() && data.args?.get(0)?.isNotEmpty() == true
                 || mArg2.isEmpty() && data.args?.get(1)?.isNotEmpty() == true
                 || data.args?.get(0)?.isNotEmpty() == true && Utils.validArgKey.IsMatch(mArg1) && !Utils.validArgKey.IsMatch(data.args?.get(0))
-                || data.args?.get(1)?.isNotEmpty() == true && Utils.validArgKey.IsMatch(mArg2) && !Utils.validArgKey.IsMatch(data.args?.get(1)) 
+                || data.args?.get(1)?.isNotEmpty() == true && Utils.validArgKey.IsMatch(mArg2) && !Utils.validArgKey.IsMatch(data.args?.get(1))
                 )
             {
                 throw new ArgumentException("Неправильные параметры были переданы в макрос");
@@ -65,7 +69,7 @@ namespace Commands
             //var secondVar = buildVariable(mArg2, data.args?.get(1));
             //if (secondVar != null)
             //    tableV.Add(secondVar);
-            
+
         }
 
         private Variable buildVariable(string varName, string arg)

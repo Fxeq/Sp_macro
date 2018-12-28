@@ -29,16 +29,16 @@ namespace Commands
             }
 
 
-            if (config.stackWhile.Count != 0 && label.isNotEmpty())
-            {
-                throw new ArgumentException("Внутри цикла обнаружена ассемблерная метка");
-            }
+            //if (config.stackWhile.Count != 0 && label.isNotEmpty() && config.macroCommand?.data?.lable?.Equals(config.stack.Peek()) == true)
+            //{
+            //    throw new ArgumentException("Внутри цикла обнаружена ассемблерная метка");
+            //}
             return false;
         }
 
         public virtual void execute(IList<NameMacro> tableNMacro, IList<Variable> tableV, IList<BodyMacro> tableMacro, IList<Instruction> tom)
         {
-            if (Config.getInstance().macroMode)
+            if (config.macroMode)
             {
                 tableMacro.Add(new BodyMacro()
                 {

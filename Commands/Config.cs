@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sp_macro;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,10 +18,11 @@ namespace Commands
         public Dictionary<string, MacroCommand> macros = new Dictionary<string, MacroCommand>();
         private MacroCommand _macroCommand = null;
         public MacroCommand macroCommand { get { return _macroCommand; } }
+        public Dictionary<string,List<Variable>> variables = new Dictionary<string, List<Variable>>();
 
         public Dictionary<string, string> unigueLabel { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, List<int>> lateInitMacros;
-
+        public bool inProgress { get; set; } = false;
 
         public static Config getInstance()
         {
@@ -47,7 +49,7 @@ namespace Commands
             if (_macroCommand != null)
             {
                 macros[_macroCommand.data.lable] = _macroCommand;
-
+                variables.Remove(_macroCommand.data.lable);
                 //if (lateInitMacros.ContainsKey(macroCommand.data.lable))
                 //{
                 //    foreach (int item in lateInitMacros[macroCommand.data.lable])
@@ -64,6 +66,7 @@ namespace Commands
             stackWhile.Clear();
             whileIndex = -1;
             macroMode = false;
+            inProgress = false;
             macros.Clear();
             _macroCommand = null;
             unigueLabel.Clear();

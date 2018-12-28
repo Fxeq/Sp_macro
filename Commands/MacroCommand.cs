@@ -29,7 +29,6 @@ namespace Commands
                 if (!Utils.validArg.IsMatch(lineData.args.get(0))) throw new ArgumentException("Неправильный формат объявления аргументов");
                 if (lineData.args.Length > 1 && !Utils.validArg.IsMatch(lineData.args.get(1))) throw new ArgumentException("Неправильный формат объявления аргументов");
             }
-            Config.getInstance().macroMode = true;
             _data = lineData;
             return true;
         }
@@ -43,6 +42,7 @@ namespace Commands
 
             //if (tempArg1Name == tempArg2Name) throw new ArgumentException ($"Параметры не могут иметь одинаковых имен");
 
+            Config.getInstance().macroMode = true;
             if (tableNMacro.Any(i => i.Name == data.lable))
             {
                 throw new ArgumentException($"Имя макроса {data.lable} уже содердится в талбице макроопределений\n");

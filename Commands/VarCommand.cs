@@ -23,6 +23,8 @@ namespace Commands
         public override bool checkLineData(LineData lineData)
         {
             base.checkLineData(lineData);
+            if (lineData.args.Length != 2)
+                throw new ArgumentException("Неправильный формат записи директивы");
             if (lineData.args.get(0)?.isEmpty() == true )
             {
                 throw new ArgumentException("Отсутсвует обязательное имя переменной");
@@ -57,7 +59,14 @@ namespace Commands
                 throw new ArgumentException($"Для переменной {data.args?.get(0)} определенно неправильное значение\n");
             }
 
-            tableV.Add(new Variable() { Name = Utils.GetUniquePrefix(data.args?.get(0)), Value = value.ToString(), Scope = Config.getInstance().stack.Peek(), });
+            var config = Config.getInstance();
+            var variable = new Variable() { Name = Utils.GetUniquePrefix(data.args?.get(0)), Value = value.ToString(), Scope = config.stack.Peek(), };
+            tableV.Add(variable);
+            var variables = config.variables;
+            if (!variables.ContainsKey(variable.Scope))
+                variables.Add(variable.Scope, new List<Variable>() { variable });
+            else
+                variables[variable.Scope].Add(variable);
         }
     }
 }

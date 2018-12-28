@@ -53,9 +53,12 @@ namespace Commands
                 bool compare = Utils.Compare(getValue(data.args.get(0), tableV), getValue(data.args.get(2), tableV), data.args.get(1));
                 config.stackWhile.Push(compare);
             }
-            catch 
+            catch (Exception ex)
             {
-                throw new ArgumentException("Условие невыполнимо");
+                if (ex.Message.isEmpty())
+                    throw new ArgumentException("Условие невыполнимо + " + ex.StackTrace);
+                else
+                    throw ex;
             }
         }
 

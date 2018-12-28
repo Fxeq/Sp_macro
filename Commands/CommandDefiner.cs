@@ -46,13 +46,8 @@
                {AddRaCommand.name,  () => new AddRaCommand(_lineData)},
         };
 
-        public static Dictionary<string, int> regs = new Dictionary<string, int>()
-            {
-                { "R0", 00}, { "R1", 01}, { "R2", 02}, { "R3", 03}, { "R4", 04}, { "R5", 05}, { "R6", 06}, { "R7", 07},
-                { "R8", 08}, { "R9", 09}, { "R10", 10}, { "R11", 11}, { "R12", 12}, { "R13", 13}, { "R14", 14}, { "R15", 15},
-            };
 
-        public ICommand define(LineData lineData)
+        public ICommand define(LineData lineData, bool shouldCheck = true)
         {
             ICommand command = null;
 
@@ -62,7 +57,10 @@
             else if (command == null && lineData.lable.isNotEmpty() && !Config.getInstance().macros.ContainsKey(lineData.lable)) command = new LateInitMacroCommand(lineData);
 
             if (command is Directive) command = command as Directive;
-            command?.checkLineData(lineData);
+
+            //if (shouldCheck)
+                command?.checkLineData(lineData);
+
             return command;
         }
 

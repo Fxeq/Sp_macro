@@ -12,7 +12,7 @@ namespace sp_macro
     {
         public LineData parse(string line)
         {
-            if (line.Trim().Length == 0) throw new ArgumentException();
+            //if (line.Trim().Length == 0) throw new ArgumentException();
             int index = 0;
             LineData data = new LineData();
             string[] arguments = line.Trim().Split();
