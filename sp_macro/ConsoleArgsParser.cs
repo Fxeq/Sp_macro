@@ -133,6 +133,10 @@ namespace sp_macro
                 macros = new List<string>();
                 nameMacros = new List<string>();
                 exe = new Executor(inFile);
+                exe.Init();
+                //exe.LoadFile(inFile);
+                var text = exe.ts.ToString();
+                exe.CodeSource = () => text;
             }
             else
             {

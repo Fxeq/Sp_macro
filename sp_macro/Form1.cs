@@ -71,12 +71,13 @@
             tv.DataSource = executor.tableV;
             om.DataSource = executor.tom;
             tim.DataSource = executor.tableNMacro;
+            
 
             tm.Columns["data"].Visible = false;
 
             SelectLine();
         }
-
+        
 
         public void Preparation()
         {
@@ -99,6 +100,9 @@
             try
             {
                 executor.Pass(sender, e);
+
+                save.Enabled = true;
+                open.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -155,6 +159,7 @@
 
         private void Step(object sender, EventArgs e)
         {
+            ts.ReadOnly = true;
             try
             {
                 executor.Step(sender, e);
@@ -168,6 +173,8 @@
                     save.Enabled = true;
                     open.Enabled = true;
 
+                    ts.ReadOnly = false;
+
                 }
             }
             catch (Exception ex)
@@ -177,6 +184,8 @@
                 bpass.Enabled = false;
                 save.Enabled = true;
                 open.Enabled = true;
+
+                ts.ReadOnly = false;
             }
         }
 

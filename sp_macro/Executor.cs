@@ -196,7 +196,7 @@ namespace sp_macro
         {
             if (end)
             {
-                OpenFileDialog open = new OpenFileDialog();
+                SaveFileDialog open = new SaveFileDialog();
                 open.InitialDirectory = CurrentDirectory;
                 open.Filter = "(*.txt)|*.txt";
                 open.ShowDialog();
@@ -236,6 +236,15 @@ namespace sp_macro
             }
         }
 
+
+        public void LoadFile(string path)
+        {
+            
+                inFile =path;
+                ts = new StringBuilder();
+                ReadFile();
+            
+        }
 
 
         public Message Pass(object sender, EventArgs e)
@@ -283,7 +292,7 @@ namespace sp_macro
                 var err = new StringBuilder();
                 err.Append(ex.Message);
                 err.Append(" Строка №" + (codeReader.currentLine + 1));
-                err.Append("\n" + ex.StackTrace);
+                //err.Append("\n" + ex.StackTrace);
 
                 if(ex is OutOfMemoryException)
                 {

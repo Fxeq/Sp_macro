@@ -133,7 +133,7 @@ namespace sp_macro
                             {
                                 Console.WriteLine("\nБыли обнаружены следующие ошибки:\n");
                                 Console.WriteLine(ex.Message);
-                                Console.WriteLine(ex.StackTrace);
+                                //Console.WriteLine(ex.StackTrace);
                                 Console.WriteLine("\nИсправьте все ошибки в исходном тексте и перезапустите программу.\n");
                             }
                         }
@@ -142,7 +142,7 @@ namespace sp_macro
                 catch (Exception ex)
                 {
                     Console.WriteLine("\n\nОшибка. " + ex.Message + "\n\n");
-                    Console.WriteLine( ex.StackTrace);
+                    //Console.WriteLine( ex.StackTrace);
                 }
             }
         }
